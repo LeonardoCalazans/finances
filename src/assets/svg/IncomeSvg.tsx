@@ -11,9 +11,9 @@ interface Props {
 const IncomeSvg = ({ height, width, fill }: Props): JSX.Element => {
   return (
     <Svg
-      height={height || 24}
+      height={height || 36}
       viewBox="0 0 24 24"
-      width={width || 24}
+      width={width || 36}
       fill={fill || "#18c901"}
     >
       <Path d="M0 0h24v24H0V0z" fill="none" />

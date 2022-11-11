@@ -1,25 +1,27 @@
 import React from "react";
+import { currencyFormat } from "../../utils/helpers";
 import { Title, Value, Wrapper, WrapperInfo } from "./styles";
 
 type Props = {
   title: string;
-  value: string;
+  balance: number;
   icon?: React.ReactNode;
-  backgroundColor?: string;
+  backgroundColor?: boolean;
 };
 
 const ViewInformation: React.FC<Props> = ({
   title,
-  value,
+  balance,
   icon,
   backgroundColor,
 }: Props) => {
   return (
-    //passando propriedade backgroundColor para o componente Wrapper
-    <Wrapper backgroundColor={backgroundColor}>
+    <Wrapper backgroundColor={backgroundColor} balance={balance}>
       <WrapperInfo>
-        <Title>{title}</Title>
-        <Value>{value}</Value>
+        <Title backgroundColor={backgroundColor}>{title}</Title>
+        <Value backgroundColor={backgroundColor}>
+          {currencyFormat(balance)}
+        </Value>
       </WrapperInfo>
       {icon}
     </Wrapper>

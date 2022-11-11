@@ -1,6 +1,10 @@
 export const theme = {
     colors: {
         primary: '#E51C44',
+        darkBlue: '#363f5f',
+        green: '#49AA26',
+        lightGreen: '#3dd705',
+        red: '#e92929',
 
         //color variantes green
         secondary100: '#183801',
@@ -25,15 +29,15 @@ export const theme = {
         tertiary30: '#ff0000',
 
         //background
-        background: '#fff',
+        background: '#f0f2f5',
         background100: '#DDE3F0',
         background90: '#E1E9F5',
         background80: '#EBF1FA',
 
         text: '#222',
+        textVariant: '#FFFFFF',
         overlay: 'rgba(0,0,0,0.7)',
         highlight: '#18a87a',
-        heading: '#DDE3F0',
         line: '#991F36',
         on: '#32BD50',
 
