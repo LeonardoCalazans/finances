@@ -11,36 +11,36 @@ export const Wrapper = styled.View`
     align-items: "center";
 `;
 
-export const ButtonLoginWithGoogle = styled(RectButton) <RectButtonProps>`
-    width: 200;
-    height: 48;
-    flex-direction: "row";
+export const ButtonLoginWithGoogle = styled.TouchableOpacity`
     background-color: ${background};
-    border-radius: 5;
+    flex-direction: row;
+    border-radius: 5px;
+    padding: 15px;
     justify-content: "space-around";
-    align-items: "center";
+    align-items: center;
 `;
 
 export const TitleWithGoogle = styled.Text`
     color: ${text};
+    padding-left: 15px;
 `;
 
 export const Title = styled.Text`
     color: ${text};
     text-align: 'center';
-    font-size: 40;
-    margin-bottom: 16;
+    font-size: 40px;
+    margin-bottom: 16px;
     font-family: ${theme.fonts.title700};
-    line-height: 40;
+    line-height: 40px;
 `;
 
 export const SubTitle = styled.Text`	
     color: ${text};
-    font-size: 15;
+    font-size: 25px;
     text-align: 'center';
-    margin-bottom: 64;
+    margin-bottom: 64px;
     font-family: ${theme.fonts.title500};
-    line-height: 25;
+    line-height: 25px;
     padding: 24px;
 `;
 
