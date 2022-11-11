@@ -1,19 +1,20 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { styles } from "./styles";
-// import { theme } from "../../global/styles/theme";
+import { theme } from "../../utils/theme/theme";
 
 type Props = {
+  children: React.ReactNode;
   onLayout?: () => void;
 };
 
 const Background: React.FC<Props> = ({ children, onLayout }) => {
-  // const { secondary80, secondary100 } = theme.colors;
+  const { background100, on } = theme.colors;
   return (
     <LinearGradient
       testID="background"
       style={styles.container}
-      colors={["red", "blue"]}
+      colors={[background100, on]}
       onLayout={onLayout}
       children={children as any}
     />
