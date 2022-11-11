@@ -1,18 +1,37 @@
 import styled from 'styled-components/native';
+import { theme } from "../../utils/theme/theme";
 
-export const Wrapper = styled.View`
-    flex: 1;
-    background-color: #efefef;
-    justify-content: center;
+type WrapperProps = {
+    backgroundColor?: string;
+};
+
+const background = theme.colors.background;
+const text = theme.colors.text;
+
+export const Wrapper = styled.View<WrapperProps>`
+    width: 90%;
+    margin: 10px auto;
+    border-radius: 5px;
+    background-color: ${props => props.backgroundColor || background};
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 12px;
+`;
+
+export const WrapperInfo = styled.View`
+    padding-left: 12px;
+    justify-content: space-around;
+    align-content: space-around;
 `;
 
 export const Title = styled.Text`
-    color: #FFF;
-    padding: 2px;
+    color: ${text};
+    font-size: 16;
+    margin-bottom: 12px;
 `;
 
 export const Value = styled.Text`
-    color: #D4C2FF;
-    padding: 2px;
-    font-size: 16px;
+    color: ${text};
+    font-size: 26px;
 `;

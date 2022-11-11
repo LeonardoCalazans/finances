@@ -1,11 +1,27 @@
 import React from "react";
-import { Title, Value, Wrapper } from "./styles";
+import { Title, Value, Wrapper, WrapperInfo } from "./styles";
 
-const ViewInformation = () => {
+type Props = {
+  title: string;
+  value: string;
+  icon?: React.ReactNode;
+  backgroundColor?: string;
+};
+
+const ViewInformation: React.FC<Props> = ({
+  title,
+  value,
+  icon,
+  backgroundColor,
+}: Props) => {
   return (
-    <Wrapper>
-      <Title>Entrada</Title>
-      <Value>R$ 0,00</Value>
+    //passando propriedade backgroundColor para o componente Wrapper
+    <Wrapper backgroundColor={backgroundColor}>
+      <WrapperInfo>
+        <Title>{title}</Title>
+        <Value>{value}</Value>
+      </WrapperInfo>
+      {icon}
     </Wrapper>
   );
 };
