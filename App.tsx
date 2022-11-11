@@ -52,8 +52,6 @@ const App = () => {
     <Background onLayout={onLayoutRootView}>
       <ThemeProvider theme={theme}>
         <StatusBar
-          barStyle="light-content"
-          backgroundColor="transparent"
           translucent
         />
         <AuthProvider>
