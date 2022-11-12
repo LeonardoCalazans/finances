@@ -13,7 +13,9 @@ const category = {
 declare type Transaction = {
     id: string;
     title: string;
-    value: number;
+    description: string;
+    currency: number;
+    date: Date;
     category: category;
-    created_at: Date;
+    location: string;
 };
