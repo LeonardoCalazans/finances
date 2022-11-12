@@ -1,20 +1,28 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { ExpenseSvg, IncomeSvg, LightModeSvg } from "../../assets";
+import { BalanceSvg, ExpenseSvg, IncomeSvg } from "../../assets";
 import { ViewInformation } from "../../components";
+import { Wrapper, WrapperCards, Title } from "./styles";
 
 const Home = () => {
+  const entradas = 2.0;
+  const saidas = -5.3;
+  const saldo = entradas + saidas;
+
   return (
-    <View>
-      <Text> Bem vindo a Home</Text>
-      <ViewInformation title="Entradas" value="R$ 2,00" icon={<IncomeSvg />} />
-      <ViewInformation title="Saídas" value="- R$ 5,20" icon={<ExpenseSvg />} />
+    <Wrapper>
+      <ViewInformation title="Entradas" balance={2.0} icon={<IncomeSvg />} />
+      <ViewInformation title="Saídas" balance={-5.3} icon={<ExpenseSvg />} />
       <ViewInformation
         title="Total"
-        value="R$ -3,20"
-        backgroundColor="#fff000"
+        balance={saldo}
+        icon={<BalanceSvg />}
+        backgroundColor={true}
       />
-    </View>
+      <WrapperCards>
+        <Title>Transações</Title>
+      </WrapperCards>
+    </Wrapper>
   );
 };
 
