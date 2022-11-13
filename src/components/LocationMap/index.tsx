@@ -1,47 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Alert, TouchableOpacity } from "react-native";
+import { Alert, Dimensions } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-
+import { Wrapper } from "./styles";
 import * as Location from "expo-location";
 
-const LocationMap = () => {
-  const [location, setLocation] = React.useState({
+type Props = {
+  locations: LocationMaps;
+  setLocations: (location: LocationMaps) => void;
+};
+
+const LocationMap = ({ locations, setLocations }: Props) => {
+  const [location, setLocation] = useState({
     latitude: 0,
     longitude: 0,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
-
-  //inserindo barra de pesquisa no mapa
-  const [search, setSearch] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-
-  const handleSearch = async () => {
-    try {
-      const response = await fetch(
-        `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${search}&inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry&key=AIzaSy
-                `
-      );
-      const json = await response.json();
-      setSearchResults(json.candidates);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    handleSearch();
-  }, [search]);
-
-  const handleSearchResults = () => {
-    return searchResults.map((result, index) => {
-      return (
-        <View key={index}>
-          <Text>{result.name}</Text>
-        </View>
-      );
-    });
-  };
 
   useEffect(() => {
     (async () => {
@@ -51,10 +25,10 @@ const LocationMap = () => {
         return;
       }
 
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
+      let { coords } = await Location.getCurrentPositionAsync({});
+      setLocations({
+        latitude: coords.latitude,
+        longitude: coords.longitude,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       });
@@ -62,52 +36,29 @@ const LocationMap = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        onPress={() => {
-          handleSearchResults();
-        }}
-      >
-        <Text>Search</Text>
-      </TouchableOpacity>
-
+    <Wrapper>
       <MapView
-        style={styles.map}
+        style={{
+          width: Dimensions.get("window").width - 50,
+          height: 200,
+        }}
         region={location}
         showsUserLocation={true}
-        showsMyLocationButton={true}
-        showsCompass={true}
-        showsTraffic={true}
-        showsBuildings={true}
-        showsIndoors={true}
-        showsIndoorLevelPicker={true}
-        showsPointsOfInterest={true}
-        showsScale={true}
+        onRegionChangeComplete={(region) => {
+          setLocation(region);
+        }}
       >
         <Marker
           coordinate={{
             latitude: location.latitude,
             longitude: location.longitude,
           }}
-          title="Você está aqui"
-          description="Sua localização atual"
+          title="Marcar aqui"
+          description="Desaja marcar essa localização?"
         />
       </MapView>
-    </View>
+    </Wrapper>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  map: {
-    width: 300,
-    height: 200,
-  },
-});
 
 export default LocationMap;

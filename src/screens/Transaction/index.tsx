@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Wrapper,
   Title,
@@ -15,11 +15,18 @@ import { Platform } from "react-native";
 import { LocationMap } from "../../components";
 
 const Transaction = () => {
-  const [date, setDate] = React.useState(new Date());
-  const [title, setTitle] = React.useState("");
-  const [description, setDescription] = React.useState("");
-  const [currency, setCurrency] = React.useState(Number);
-  const [showDatePicker, setShowDatePicker] = React.useState(false);
+  const [date, setDate] = useState(new Date());
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [currency, setCurrency] = useState(Number);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [category, setCategory] = useState("");
+  const [location, setLocation] = useState({
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  });
 
   const onChange = (event, selectedDate) => {
     setDate(selectedDate);
@@ -29,15 +36,14 @@ const Transaction = () => {
     setShowDatePicker(false);
   };
 
-  const sendNewTransaction = (transaction: Transaction) => {
+  const sendNewTransaction = () => {
     const newTransaction = {
-      id: Math.random(),
-      title: transaction.title,
-      description: transaction.description,
-      currency: transaction.currency,
-      category: transaction.category,
-      date: transaction.date,
-      location: transaction.location,
+      title: title,
+      description: description,
+      currency: currency,
+      category: category,
+      date: date,
+      location: location,
     };
 
     console.log(newTransaction);
@@ -56,38 +62,45 @@ const Transaction = () => {
         value={description}
         onChangeText={setDescription}
       />
-      <TextInputCurrency
-        value={currency}
-        onChangeValue={setCurrency}
-        onChangeText={(formattedValue) => {
-          console.log(formattedValue); // R$ +2.310,46
-        }}
+      <Wrapper>
+        <TextInputCurrency
+          value={currency}
+          onChangeValue={setCurrency}
+          onChangeText={(formattedValue) => {
+            console.log(formattedValue); // R$ +2.310,46
+          }}
+          placeholder="Valor"
+        />
+        <TextInputDate
+          value={date.toLocaleDateString()}
+          onPressIn={() => setShowDatePicker(true)}
+        />
+        {showDatePicker && (
+          <>
+            <RNDateTimePicker
+              value={date}
+              mode="date"
+              display="spinner"
+              onChange={(event, selectedDate) => {
+                const type = event.type;
+                const currentDate = selectedDate || date;
+                onChange(type, currentDate);
+              }}
+            />
+            {Platform.OS === "ios" && (
+              <Button onPress={() => setShowDatePicker(false)}>
+                <TextButton>Confirmar</TextButton>
+              </Button>
+            )}
+          </>
+        )}
+      </Wrapper>
+
+      <LocationMap
+        locations={location}
+        setLocations={() => setLocation(location)}
       />
-      <TextInputDate
-        value={date.toLocaleDateString()}
-        onPressIn={() => setShowDatePicker(true)}
-      />
-      {showDatePicker && (
-        <>
-          <RNDateTimePicker
-            value={date}
-            mode="date"
-            display="spinner"
-            onChange={(event, selectedDate) => {
-              const type = event.type;
-              const currentDate = selectedDate || date;
-              onChange(type, currentDate);
-            }}
-          />
-          {Platform.OS === "ios" && (
-            <Button onPress={() => setShowDatePicker(false)}>
-              <TextButton>Confirmar</TextButton>
-            </Button>
-          )}
-        </>
-      )}
-      <LocationMap />
-      <Button>
+      <Button onPress={sendNewTransaction}>
         <TextButton>Cadastrar</TextButton>
       </Button>
     </Wrapper>
