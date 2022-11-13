@@ -10,10 +10,10 @@ const category = {
     other: 'outros',
 };
 
-declare type Transaction = {
+declare type TransactionType = {
     title: string;
     description?: string;
-    currency: number;
+    amount: number;
     date: Date;
     category?: category;
     location?: Location;

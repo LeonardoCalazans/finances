@@ -1,6 +1,6 @@
-declare type LocationMaps = {
-    latitude: Number,
-    longitude: Number,
-    latitudeDelta: Number,
-    longitudeDelta: Number,
+declare type LocationMapsType = {
+    latitude: number,
+    longitude: number,
+    latitudeDelta: number,
+    longitudeDelta: number,
 };
