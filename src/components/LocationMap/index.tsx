@@ -5,8 +5,8 @@ import { Wrapper } from "./styles";
 import * as Location from "expo-location";
 
 type Props = {
-  locations: LocationMaps;
-  setLocations: (location: LocationMaps) => void;
+  locations: LocationMapsType;
+  setLocations: (location: LocationMapsType) => void;
 };
 
 const LocationMap = ({ locations, setLocations }: Props) => {
