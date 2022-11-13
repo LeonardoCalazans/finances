@@ -20,7 +20,7 @@ const ViewInformation: React.FC<Props> = ({
       <WrapperInfo>
         <Title backgroundColor={backgroundColor}>{title}</Title>
         <Value backgroundColor={backgroundColor}>
-          {currencyFormat(balance)}
+          {balance ? currencyFormat(balance) : "R$ 0,00"}
         </Value>
       </WrapperInfo>
       {icon}
