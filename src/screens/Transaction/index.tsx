@@ -4,7 +4,7 @@ import {
   Title,
   TextInputTitle,
   TextInputDescription,
-  TextInputCurrency,
+  TextInputAmount,
   Button,
   TextButton,
   Maps,
@@ -18,7 +18,7 @@ const Transaction = () => {
   const [date, setDate] = useState(new Date());
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [currency, setCurrency] = useState(Number);
+  const [amount, setAmount] = useState(Number);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [category, setCategory] = useState("");
   const [location, setLocation] = useState({
@@ -40,7 +40,7 @@ const Transaction = () => {
     const newTransaction = {
       title: title,
       description: description,
-      currency: currency,
+      amount: amount,
       category: category,
       date: date,
       location: location,
@@ -51,7 +51,6 @@ const Transaction = () => {
 
   return (
     <Wrapper>
-      <Title>Nova Transação {description}</Title>
       <TextInputTitle
         placeholder="Título"
         value={title}
@@ -62,40 +61,37 @@ const Transaction = () => {
         value={description}
         onChangeText={setDescription}
       />
-      <Wrapper>
-        <TextInputCurrency
-          value={currency}
-          onChangeValue={setCurrency}
-          onChangeText={(formattedValue) => {
-            console.log(formattedValue); // R$ +2.310,46
-          }}
-          placeholder="Valor"
-        />
-        <TextInputDate
-          value={date.toLocaleDateString()}
-          onPressIn={() => setShowDatePicker(true)}
-        />
-        {showDatePicker && (
-          <>
-            <RNDateTimePicker
-              value={date}
-              mode="date"
-              display="spinner"
-              onChange={(event, selectedDate) => {
-                const type = event.type;
-                const currentDate = selectedDate || date;
-                onChange(type, currentDate);
-              }}
-            />
-            {Platform.OS === "ios" && (
-              <Button onPress={() => setShowDatePicker(false)}>
-                <TextButton>Confirmar</TextButton>
-              </Button>
-            )}
-          </>
-        )}
-      </Wrapper>
-
+      <TextInputAmount
+        value={amount}
+        onChangeValue={setAmount}
+        onChangeText={(formattedValue) => {
+          console.log(formattedValue); // R$ +2.310,46
+        }}
+        placeholder="Valor"
+      />
+      <TextInputDate
+        value={date.toLocaleDateString()}
+        onPressIn={() => setShowDatePicker(true)}
+      />
+      {showDatePicker && (
+        <>
+          <RNDateTimePicker
+            value={date}
+            mode="date"
+            display="spinner"
+            onChange={(event, selectedDate) => {
+              const type = event.type;
+              const currentDate = selectedDate || date;
+              onChange(type, currentDate);
+            }}
+          />
+          {Platform.OS === "ios" && (
+            <Button onPress={() => setShowDatePicker(false)}>
+              <TextButton>Confirmar</TextButton>
+            </Button>
+          )}
+        </>
+      )}
       <LocationMap
         locations={location}
         setLocations={() => setLocation(location)}

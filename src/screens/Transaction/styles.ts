@@ -11,12 +11,14 @@ const background = theme.colors.background;
 const background100 = theme.colors.background100;
 
 export const Wrapper = styled.ScrollView`
-    flex: 1;
-    background-color: ${background};
-    padding: 0 24px;
+    padding: 0 20px; 
 `;
 
 export const Title = styled.Text`
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 20px;
 `;
 
 export const TextInputTitle = styled.TextInput`
@@ -46,12 +48,11 @@ export const TextInputDate = styled.TextInput`
     border-radius: 5px;
 `;
 
-export const TextInputCurrency = styled(CurrencyInput).attrs({
+export const TextInputAmount = styled(CurrencyInput).attrs({
     prefix: "R$ ",
     delimiter: ".",
     separator: ",",
     precision: 2,
-    minValue: 0
 })`
     font-size: 16px;
     color: ${text};
