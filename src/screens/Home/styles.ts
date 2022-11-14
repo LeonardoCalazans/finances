@@ -4,7 +4,7 @@ import { theme } from "../../utils/theme/theme";
 const background = theme.colors.background;
 const green = theme.colors.green;
 
-export const Wrapper = styled.View`
+export const Wrapper = styled.ScrollView`
     background-color: ${green};
     flex: 1;
 `;
@@ -19,6 +19,7 @@ export const WrapperCards = styled.View`
 
 export const Title = styled.Text`
     font-size: 24px;
+    padding-bottom: 16px;
 `;
 
 
