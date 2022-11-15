@@ -34,7 +34,7 @@ const SignIn = () => {
         finanças
       </SubTitle>
       {loading ? (
-        <ActivityIndicator size="large" color={theme.colors.primary} />
+        <ActivityIndicator size="large" color={theme.colors.secondary100} />
       ) : (
         <ButtonLoginWithGoogle onPress={handleSignIn}>
           <GoogleSvg width={24} height={24} />

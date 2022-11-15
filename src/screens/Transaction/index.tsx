@@ -21,7 +21,11 @@ const Transaction = () => {
   const [category, setCategory] = useState("");
 
   const onChange = (event, selectedDate) => {
-    setDate(selectedDate);
+    if (event.type === "set") {
+      setShowDatePicker(false);
+    }
+    const currentDate = selectedDate || date;
+    setDate(currentDate);
     if (Platform.OS === "ios") {
       return;
     }
@@ -70,11 +74,10 @@ const Transaction = () => {
           <RNDateTimePicker
             value={date}
             mode="date"
-            display="spinner"
+            display={Platform.OS === "ios" ? "spinner" : "default"}
             onChange={(event, selectedDate) => {
-              const type = event.type;
               const currentDate = selectedDate || date;
-              onChange(type, currentDate);
+              onChange(event, currentDate);
             }}
           />
           {Platform.OS === "ios" && (
