@@ -1,4 +1,3 @@
-import { RectButton, RectButtonProps } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 import { theme } from "../../utils/theme/theme";
 
@@ -6,9 +5,9 @@ const background = theme.colors.background;
 const text = theme.colors.text;
 
 export const Wrapper = styled.View`
-    flex: 1;    
-    justify-content: "center";
-    align-items: "center";
+    flex: 1;
+    justify-content: center;
+    align-items: center;
 `;
 
 export const ButtonLoginWithGoogle = styled.TouchableOpacity`
@@ -16,7 +15,7 @@ export const ButtonLoginWithGoogle = styled.TouchableOpacity`
     flex-direction: row;
     border-radius: 5px;
     padding: 15px;
-    justify-content: "space-around";
+    justify-content: space-around;
     align-items: center;
 `;
 
@@ -27,7 +26,7 @@ export const TitleWithGoogle = styled.Text`
 
 export const Title = styled.Text`
     color: ${text};
-    text-align: 'center';
+    text-align: center;
     font-size: 40px;
     margin-bottom: 16px;
     font-family: ${theme.fonts.title700};
@@ -37,7 +36,7 @@ export const Title = styled.Text`
 export const SubTitle = styled.Text`	
     color: ${text};
     font-size: 25px;
-    text-align: 'center';
+    text-align: center;
     margin-bottom: 64px;
     font-family: ${theme.fonts.title500};
     line-height: 25px;

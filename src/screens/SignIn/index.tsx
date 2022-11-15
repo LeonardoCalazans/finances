@@ -18,43 +18,29 @@ const SignIn = () => {
     try {
       await handleSignInWithGoogle();
     } catch (error) {
-      console.log(error);
       Alert.alert(`${error}`);
     }
   };
+
   return (
-    <Wrapper
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Wrapper
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Title>
-          Conecte-se {`\n`}e organize suas {`\n`}
-          finanças
-        </Title>
-        <SubTitle>
-          Crie sua lista de gastos e {`\n`}
-          entradas para organizar suas {`\n`}
-          finanças
-        </SubTitle>
-        {loading ? (
-          <ActivityIndicator size="large" color={theme.colors.primary} />
-        ) : (
-          <ButtonLoginWithGoogle onPress={handleSignIn}>
-            <GoogleSvg width={24} height={24} />
-            <TitleWithGoogle>Sign in with Google</TitleWithGoogle>
-          </ButtonLoginWithGoogle>
-        )}
-      </Wrapper>
+    <Wrapper>
+      <Title>
+        Conecte-se {`\n`}e organize suas {`\n`}
+        finanças
+      </Title>
+      <SubTitle>
+        Crie sua lista de gastos e {`\n`}
+        entradas para organizar suas {`\n`}
+        finanças
+      </SubTitle>
+      {loading ? (
+        <ActivityIndicator size="large" color={theme.colors.primary} />
+      ) : (
+        <ButtonLoginWithGoogle onPress={handleSignIn}>
+          <GoogleSvg width={24} height={24} />
+          <TitleWithGoogle>Sign in with Google</TitleWithGoogle>
+        </ButtonLoginWithGoogle>
+      )}
     </Wrapper>
   );
 };
