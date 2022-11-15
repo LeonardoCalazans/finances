@@ -36,7 +36,10 @@ font-size: 16px;
     border-radius: 5px;
 `;
 
-export const TextInputDescription = styled.TextInput`
+export const TextInputDescription = styled.TextInput.attrs({
+    multiline: true,
+    maxLength: 150,
+})`
     font-size: 16px;
     color: ${text};
     margin-top: 16px;
@@ -80,7 +83,7 @@ export const Button = styled.TouchableOpacity`
     padding: 18px;
     border-radius: 5px;
     align-items: center;
-    margin-top: 16px;
+    margin: 16px 0;
 `;
 
 export const TextButton = styled.Text`
