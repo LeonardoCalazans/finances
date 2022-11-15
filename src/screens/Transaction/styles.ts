@@ -9,9 +9,15 @@ const textVariant = theme.colors.textVariant;
 const text = theme.colors.text;
 const background = theme.colors.background;
 const background100 = theme.colors.background100;
+const secondary85 = theme.colors.secondary85;
 
-export const Wrapper = styled.ScrollView`
-    padding: 0 20px; 
+export const Wrapper = styled.ScrollView.attrs({
+    contentContainerStyle: {
+
+    }
+})`
+    margin: 0 20px; 
+    flex: 1;
 `;
 
 export const Title = styled.Text`
@@ -60,6 +66,13 @@ export const TextInputAmount = styled(CurrencyInput).attrs({
     padding: 18px 16px;
     background-color: ${background100};
     border-radius: 5px;
+`;
+
+export const ButtonIOsDate = styled.TouchableOpacity`
+    background-color: ${secondary85};
+    padding: 10px;
+    border-radius: 5px;
+    align-items: center;
 `;
 
 export const Button = styled.TouchableOpacity`

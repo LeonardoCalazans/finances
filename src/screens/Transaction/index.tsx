@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import {
   Wrapper,
-  Title,
   TextInputTitle,
   TextInputDescription,
   TextInputAmount,
   Button,
   TextButton,
-  Maps,
   TextInputDate,
+  ButtonIOsDate,
 } from "./styles";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import { Platform } from "react-native";
-import { LocationMap } from "../../components";
 
 const Transaction = () => {
   const [date, setDate] = useState(new Date());
@@ -21,12 +19,6 @@ const Transaction = () => {
   const [amount, setAmount] = useState(Number);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [category, setCategory] = useState("");
-  const [location, setLocation] = useState({
-    latitude: 0,
-    longitude: 0,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  });
 
   const onChange = (event, selectedDate) => {
     setDate(selectedDate);
@@ -86,16 +78,12 @@ const Transaction = () => {
             }}
           />
           {Platform.OS === "ios" && (
-            <Button onPress={() => setShowDatePicker(false)}>
+            <ButtonIOsDate onPress={() => setShowDatePicker(false)}>
               <TextButton>Confirmar</TextButton>
-            </Button>
+            </ButtonIOsDate>
           )}
         </>
       )}
-      <LocationMap
-        locations={location}
-        setLocations={() => setLocation(location)}
-      />
       <Button onPress={sendNewTransaction}>
         <TextButton>Cadastrar</TextButton>
       </Button>
