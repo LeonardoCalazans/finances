@@ -1,13 +1,21 @@
 import React from "react";
-import { View, Text } from "react-native";
 import { BalanceSvg, ExpenseSvg, IncomeSvg } from "../../assets";
 import { CardTransactions, ViewInformation } from "../../components";
-import { Wrapper, WrapperCards, Title } from "./styles";
-
+import {
+  Wrapper,
+  WrapperCards,
+  Title,
+  ButtonSignOut,
+  ButtonSignOutText,
+} from "./styles";
+import { useAuth } from "../../hooks/auth";
 const Home = () => {
+  
   const entradas = 200;
   const saidas = -5000.37;
   const saldo = entradas + saidas;
+
+  const { handleSingOutWithGoogle } = useAuth();
 
   const transactionsArray = [
     {
@@ -97,6 +105,9 @@ const Home = () => {
           )
         )}
       </WrapperCards>
+      <ButtonSignOut onPress={() => handleSingOutWithGoogle()}>
+        <ButtonSignOutText>Sair</ButtonSignOutText>
+      </ButtonSignOut>
     </Wrapper>
   );
 };

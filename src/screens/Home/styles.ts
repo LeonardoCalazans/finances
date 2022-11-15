@@ -3,6 +3,7 @@ import { theme } from "../../utils/theme/theme";
 
 const background = theme.colors.background;
 const green = theme.colors.green;
+const secondary100 = theme.colors.secondary100;
 
 export const Wrapper = styled.ScrollView`
     background-color: ${green};
@@ -22,4 +23,15 @@ export const Title = styled.Text`
     padding-bottom: 16px;
 `;
 
+export const ButtonSignOut = styled.TouchableOpacity`
+    background-color: ${secondary100};
+    padding: 16px;
+    margin: 16px 0;
+    `;
+
+export const ButtonSignOutText = styled.Text`
+    color: ${background};
+    font-size: 16px;
+    text-align: center;
+`;
 
