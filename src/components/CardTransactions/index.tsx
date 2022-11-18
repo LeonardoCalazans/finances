@@ -1,5 +1,7 @@
 import React from "react";
 import { currencyFormat, dateFormat } from "../../utils/helpers";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { theme } from "../../utils/theme/theme";
 import {
   Container,
   Amount,
@@ -15,9 +17,9 @@ type Props = {
   deleteTransaction?: (id: TransactionType["id"]) => void;
 };
 
-const CardTransactions = (data: Props) => {
+const CardTransactions = ({ data, deleteTransaction }: Props) => {
   //criar logica de toutchableOpacity para o usuário navegar abrir um janela (screens) nova com mais detalhes da transação onde o usuário pode editar ou deletar a transação ou editar. Parecida com a tela de nova transação.
-  const { id, title, description, amount, category, date } = data.data;
+  const { id, title, description, amount, category, date } = data;
 
   return (
     <Wrapper>
@@ -31,6 +33,12 @@ const CardTransactions = (data: Props) => {
       <WrapperCategoryAmount>
         <Amount amount={amount}>{currencyFormat(amount)}</Amount>
         <Description>{category}</Description>
+        <Ionicons
+          name="trash"
+          color={theme.colors.red}
+          size={18}
+          onPress={() => deleteTransaction(id)}
+        />
       </WrapperCategoryAmount>
     </Wrapper>
   );
