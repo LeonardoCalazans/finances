@@ -85,8 +85,6 @@ const Transaction = () => {
       balance: amounts.balance + amount,
     } as UserAmountType;
 
-    console.log("amountsTransactions", amounts);
-
     await AsyncStorage.setItem(COLLECTION_AMOUNTS, JSON.stringify(newAmounts));
   };
 
