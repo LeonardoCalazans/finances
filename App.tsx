@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { StatusBar } from "react-native";
+import { Platform, StatusBar } from "react-native";
 import { Inter_400Regular, Inter_500Medium } from "@expo-google-fonts/inter";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -18,6 +18,12 @@ SplashScreen.preventAutoHideAsync();
 
 const App = () => {
   const [appIsReady, setAppIsReady] = useState(false);
+
+  if (Platform.OS === "android") {
+    // only android needs polyfill
+    require("intl"); // import intl object
+    require("intl/locale-data/jsonp/pt-BR"); // load the required locale details
+  }
 
   useEffect(() => {
     async function prepare() {
@@ -51,9 +57,7 @@ const App = () => {
   return (
     <Background onLayout={onLayoutRootView}>
       <ThemeProvider theme={theme}>
-        <StatusBar
-          translucent
-        />
+        <StatusBar translucent />
         <AuthProvider>
           <Routes />
         </AuthProvider>
