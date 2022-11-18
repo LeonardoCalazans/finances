@@ -7,7 +7,7 @@ import { SignIn } from "../screens";
 
 const Routes = () => {
   const { user } = useAuth();
-  console.log("Routes User", user);
+  
   return (
     <NavigationContainer>
       {user.id ? <AuthRoutes /> : <SignIn />}
