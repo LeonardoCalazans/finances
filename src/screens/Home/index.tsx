@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { BalanceSvg, ExpenseSvg, IncomeSvg } from "../../assets";
 import { CardTransactions, ViewInformation } from "../../components";
 import {
@@ -9,102 +9,127 @@ import {
   ButtonSignOutText,
 } from "./styles";
 import { useAuth } from "../../hooks/auth";
-const Home = () => {
-  
-  const entradas = 200;
-  const saidas = -5000.37;
-  const saldo = entradas + saidas;
+import { ActivityIndicator, Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  COLLECTION_AMOUNTS,
+  COLLECTION_TRANSACTIONS,
+} from "../../utils/config/database";
+import { theme } from "../../utils/theme/theme";
+import { useFocusEffect } from "@react-navigation/native";
 
+const Home = () => {
+  const [transactions, setTransactions] = useState<TransactionType[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [category, setCategory] = useState("");
+  const [amount, setAmount] = useState<UserAmountType>({
+    income: 0,
+    expense: 0,
+    balance: 0,
+  });
   const { handleSingOutWithGoogle } = useAuth();
 
-  const transactionsArray = [
-    {
-      title: "Salário",
-      description: "Salarinho de cada mês",
-      amount: 2900,
-      date: new Date(),
-      category: "income",
-      location: {
-        latitude: 0,
-        longitude: 0,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+  const deleteTransaction = async (id: TransactionType["id"]) => {
+    Alert.alert("Delete", "Deseja realmente deletar?", [
+      {
+        text: "Não",
+        style: "cancel",
       },
-    },
-    {
-      title: "Aluguel",
-      description: "Aluguel do apartamento do mês, que é caro demais :( ",
-      amount: -550.9,
-      date: new Date(),
-      category: "Casa",
-    },
-    {
-      title: "Salário",
-      description: "Salarinho de cada mês",
-      amount: 2900,
-      date: new Date(),
-      category: "income",
-      location: {
-        latitude: 0,
-        longitude: 0,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+      {
+        text: "Sim",
+        onPress: async () => {
+          const response = await AsyncStorage.getItem(COLLECTION_TRANSACTIONS);
+          const storage: TransactionType[] = response
+            ? JSON.parse(response)
+            : [];
+          const storage2 = storage.filter((item) => {
+            return item.id !== id;
+          });
+          await AsyncStorage.setItem(
+            COLLECTION_TRANSACTIONS,
+            JSON.stringify(storage2)
+          );
+          await loadTransactions();
+        },
       },
-    },
-    {
-      title: "Aluguel",
-      description: "Aluguel do apartamento do mês, que é caro demais :( ",
-      amount: -550.9,
-      date: new Date(),
-      category: "Casa",
-    },
-    {
-      title: "Salário",
-      description: "Salarinho de cada mês",
-      amount: 2900,
-      date: new Date(),
-      category: "income",
-      location: {
-        latitude: 0,
-        longitude: 0,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      },
-    },
-    {
-      title: "Aluguel",
-      description: "Aluguel do apartamento do mês, que é caro demais :( ",
-      amount: -550.9,
-      date: new Date(),
-      category: "Casa",
-    },
-  ];
+    ]);
+  };
+
+  const loadAmounts = async () => {
+    const response = await AsyncStorage.getItem(COLLECTION_AMOUNTS);
+    const amounts = JSON.parse(response);
+    setAmount({
+      income: amounts.income,
+      expense: amounts.expense,
+      balance: amounts.balance,
+    });
+  };
+
+  const loadTransactions = async () => {
+    const response = await AsyncStorage.getItem(COLLECTION_TRANSACTIONS);
+    const storage: TransactionType[] = response ? JSON.parse(response) : [];
+    let newAmounts = {
+      income: 0,
+      expense: 0,
+      balance: 0,
+    } as UserAmountType;
+    if (category) {
+      setTransactions(storage.filter((item) => item.category === category));
+    } else {
+      setTransactions(storage);
+    }
+    setLoading(false);
+    storage.map(({amount}) => {
+      newAmounts = {
+        income: amount >= 0 ? newAmounts.income + amount : newAmounts.income,
+        expense: amount < 0 ? newAmounts.expense + amount : newAmounts.expense,
+        balance: newAmounts.balance + amount,
+      };
+    });
+    await AsyncStorage.setItem(COLLECTION_AMOUNTS, JSON.stringify(newAmounts));
+    await loadAmounts();
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      loadTransactions();
+      loadAmounts();
+    }, [category])
+  );
 
   return (
     <Wrapper>
-      <ViewInformation title="Entradas" balance={2.0} icon={<IncomeSvg />} />
-      <ViewInformation title="Saídas" balance={-5.3} icon={<ExpenseSvg />} />
+      <ViewInformation
+        title="Entradas"
+        balance={amount.income}
+        icon={<IncomeSvg />}
+      />
+      <ViewInformation
+        title="Saídas"
+        balance={amount.expense}
+        icon={<ExpenseSvg />}
+      />
       <ViewInformation
         title="Total"
-        balance={saldo}
+        balance={amount.balance}
         icon={<BalanceSvg />}
         backgroundColor={true}
       />
-      <WrapperCards>
-        <Title>Transações</Title>
-        {transactionsArray.map(
-          ({ title, description, amount, date, category }, index) => (
+      {loading ? (
+        <ActivityIndicator size="large" color={theme.colors.secondary100} />
+      ) : (
+        <WrapperCards>
+          <Title>Transações</Title>
+          {transactions.map((data, index) => (
             <CardTransactions
               key={index}
-              title={title}
-              description={description}
-              amount={amount}
-              date={date}
-              category={category}
+              data={data}
+              // onPress={() => handleTransactionDetails(item)}
+              deleteTransaction={deleteTransaction}
             />
-          )
-        )}
-      </WrapperCards>
+          ))}
+        </WrapperCards>
+      )}
       <ButtonSignOut onPress={() => handleSingOutWithGoogle()}>
         <ButtonSignOutText>Sair</ButtonSignOutText>
       </ButtonSignOut>

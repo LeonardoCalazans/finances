@@ -8,7 +8,11 @@ import React, {
 
 import * as AuthSession from "expo-auth-session";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { COLLECTION_USERS } from "../utils/config/database";
+import {
+  COLLECTION_AMOUNTS,
+  COLLECTION_TRANSACTIONS,
+  COLLECTION_USERS,
+} from "../utils/config/database";
 
 // const { REDIRECT_URI } = process.env;
 // const { SCOPE } = process.env;
@@ -38,6 +42,11 @@ export const AuthContext = createContext({} as AuthContextData);
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User>({} as User);
   const [loading, setLoading] = useState(false);
+  const [amounts, setAmounts] = useState<UserAmountType>({
+    income: 0,
+    expense: 0,
+    balance: 0,
+  } as UserAmountType);
 
   const handleSignInWithGoogle = async () => {
     try {
@@ -54,14 +63,13 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       const { type, params } = (await AuthSession.startAsync({
         authUrl,
       })) as AuthResponse;
-      console.log(type, params);
+
       if (type === "success") {
         const response = await fetch(
           `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${params.access_token}`
         );
 
         const user = await response.json();
-        console.log("user ", user);
         const userData = {
           ...user,
           token: params.access_token,
@@ -69,7 +77,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
         await AsyncStorage.setItem(COLLECTION_USERS, JSON.stringify(userData));
         setUser(userData);
-        console.log("user ", user);
       }
     } catch (error) {
       throw new Error(`Não foi possível autenticar. ${error}`);
@@ -85,12 +92,21 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const loadUserStorageData = async () => {
     const storage = await AsyncStorage.getItem(COLLECTION_USERS);
+    const transactions = await AsyncStorage.getItem(COLLECTION_TRANSACTIONS);
+    const transactionList = transactions ? JSON.parse(transactions) : [];
 
     if (storage) {
       const userLogged = JSON.parse(storage) as User;
-
       setUser(userLogged);
     }
+    transactionList.map(({ amount }: TransactionType) =>
+      setAmounts({
+        income: amount >= 0 && amounts.income + amount,
+        expense: amount < 0 && amounts.expense + amount,
+        balance: amounts.income + amounts.expense,
+      })
+    );
+    await AsyncStorage.setItem(COLLECTION_AMOUNTS, JSON.stringify(amounts));
   };
 
   useEffect(() => {

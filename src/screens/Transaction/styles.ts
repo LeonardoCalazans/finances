@@ -1,19 +1,24 @@
 import styled from "styled-components/native";
 import { theme } from "../../utils/theme/theme";
-import MapView from 'react-native-maps';
-import { Dimensions } from "react-native";
 import CurrencyInput from "react-native-currency-input";
 
 const green = theme.colors.green;
 const textVariant = theme.colors.textVariant;
 const text = theme.colors.text;
-const background = theme.colors.background;
 const background100 = theme.colors.background100;
 const secondary85 = theme.colors.secondary85;
+const red = theme.colors.red;
+
+interface ButtonProps {
+    disabled: boolean;
+}
+
+interface InputAmountProps {
+    amountPositive: boolean;
+}
 
 export const Wrapper = styled.ScrollView.attrs({
     contentContainerStyle: {
-
     }
 })`
     margin: 0 20px; 
@@ -57,14 +62,15 @@ export const TextInputDate = styled.TextInput`
     border-radius: 5px;
 `;
 
-export const TextInputAmount = styled(CurrencyInput).attrs({
+export const TextInputAmount = styled(CurrencyInput).attrs(props => ({
     prefix: "R$ ",
     delimiter: ".",
     separator: ",",
     precision: 2,
-})`
+})) <InputAmountProps>`
+    flex: 1;
     font-size: 16px;
-    color: ${text};
+    color: ${props => props.amountPositive ? green : red};
     margin-top: 16px;
     padding: 18px 16px;
     background-color: ${background100};
@@ -78,8 +84,8 @@ export const ButtonIOsDate = styled.TouchableOpacity`
     align-items: center;
 `;
 
-export const Button = styled.TouchableOpacity`
-    background-color: ${green};
+export const Button = styled.TouchableOpacity<ButtonProps>`
+    background-color: ${props => props.disabled ? background100 : green};
     padding: 18px;
     border-radius: 5px;
     align-items: center;
@@ -91,13 +97,12 @@ export const TextButton = styled.Text`
     font-size: 16px;
 `;
 
-export const Maps = styled(MapView)`
-    width: 100%;
-    /* width: ${Dimensions.get('window').width}px; */
-    height: 300px;
-
-    /* height: ${Dimensions.get('window').height}px; */
+export const WrapperIcon = styled.View`
+    flex: 1;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 `;
-
-export const WrapperMaps = styled.View`
+export const ButtonIcon = styled.TouchableOpacity`
+    margin-top: 16px;
 `;
