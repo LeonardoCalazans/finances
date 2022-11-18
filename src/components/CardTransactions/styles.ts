@@ -36,7 +36,7 @@ export const WrapperDescriptions = styled.View`
     align-items: center;
 `;
 
-export const WrapperCategoryAmount = styled.View`
+export const WrapperCategoryAmount = styled.TouchableOpacity`
     flex-direction: column;
     align-items: flex-end;
 `;

@@ -30,15 +30,10 @@ const CardTransactions = ({ data, deleteTransaction }: Props) => {
         </WrapperDescriptions>
         <Description>{description}</Description>
       </Container>
-      <WrapperCategoryAmount>
+      <WrapperCategoryAmount onPress={() => deleteTransaction(id)}>
         <Amount amount={amount}>{currencyFormat(amount)}</Amount>
         <Description>{category}</Description>
-        <Ionicons
-          name="trash"
-          color={theme.colors.red}
-          size={18}
-          onPress={() => deleteTransaction(id)}
-        />
+        <Ionicons name="trash" color={theme.colors.red} size={18} />
       </WrapperCategoryAmount>
     </Wrapper>
   );
