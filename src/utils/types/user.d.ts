@@ -6,3 +6,9 @@ declare type User = {
     picture: string;
     verified_email: boolean;
 };
+
+declare type UserAmountType = {
+    income: number;
+    expense: number;
+    balance: number;
+};
