@@ -11,10 +11,10 @@ const category = {
 };
 
 declare type TransactionType = {
+    id: number;
     title: string;
     description?: string;
     amount: number;
     date: Date;
     category?: category;
-    location?: Location;
 };

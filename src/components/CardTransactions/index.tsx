@@ -10,14 +10,14 @@ import {
   WrapperDescriptions,
 } from "./styles";
 
-const CardTransactions = ({
-  title,
-  description,
-  amount,
-  date,
-  category,
-}: TransactionType) => {
+type Props = {
+  data: TransactionType;
+  deleteTransaction?: (id: TransactionType["id"]) => void;
+};
+
+const CardTransactions = (data: Props) => {
   //criar logica de toutchableOpacity para o usuário navegar abrir um janela (screens) nova com mais detalhes da transação onde o usuário pode editar ou deletar a transação ou editar. Parecida com a tela de nova transação.
+  const { id, title, description, amount, category, date } = data.data;
 
   return (
     <Wrapper>
